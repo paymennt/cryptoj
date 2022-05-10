@@ -1,4 +1,7 @@
-package com.paymennt.crypto.core.lib;
+/************************************************************************
+ * Copyright PointCheckout, Ltd.
+ */
+package com.paymennt.crypto.lib;
 
 import org.bouncycastle.util.BigIntegers;
 import org.bouncycastle.util.encoders.Hex;
@@ -12,10 +15,18 @@ import static java.math.BigInteger.ZERO;
 import static java.math.BigInteger.valueOf;
 import static java.util.Arrays.copyOfRange;
 
+/**
+ * The Class Base58.
+ */
 public class Base58 {
+    
+    /** The Constant BASE58_ALPHABET. */
     private static final String BASE58_ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
+    /** The Constant ALPHABET. */
     public static final char[] ALPHABET = BASE58_ALPHABET.toCharArray();
+    
+    /** The Constant INDEXES. */
     private static final int[] INDEXES = new int[128];
     static {
         Arrays.fill(INDEXES, -1);
@@ -24,6 +35,12 @@ public class Base58 {
         }
     }
 
+    /**
+     * Encode.
+     *
+     * @param key the key
+     * @return the string
+     */
     public static String encode(byte[] key) {
         int zeroCount = 0;
         for (byte b : key) {
@@ -48,9 +65,8 @@ public class Base58 {
     /**
      * Decodes the given base58 string into the original data bytes.
      *
-     * @param input the base58-encoded string to decode
-     * @return the decoded data bytes
-     * @throws AddressFormatException if the given string is not a valid base58 string
+     * @param input the input
+     * @return the byte[]
      */
     public static byte[] decode(String input) {
         if (input.length() == 0) {
@@ -86,6 +102,12 @@ public class Base58 {
         return Arrays.copyOfRange(decoded, outputStart - zeros, decoded.length);
     }
 
+    /**
+     * Encode with checksum.
+     *
+     * @param key the key
+     * @return the string
+     */
     public static String encodeWithChecksum(byte[] key) {
         byte[] checksum = Hash256.hash(key);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -94,6 +116,13 @@ public class Base58 {
         return encode(byteArrayOutputStream.toByteArray());
     }
 
+    /**
+     * Decode wif.
+     *
+     * @param wif the wif
+     * @param compressed the compressed
+     * @return the byte[]
+     */
     public static byte[] decodeWif(String wif, boolean compressed) {
         BigInteger number = ZERO;
         for (Character c : wif.toCharArray()) {
@@ -109,6 +138,12 @@ public class Base58 {
         return copyOfRange(combined, 1, 33);
     }
 
+    /**
+     * Decode with checksum.
+     *
+     * @param key the key
+     * @return the byte[]
+     */
     public static byte[] decodeWithChecksum(String key) {
         BigInteger number = ZERO;
         for (Character c : key.toCharArray()) {
@@ -124,6 +159,12 @@ public class Base58 {
         return copyOfRange(combined, 1, 21);
     }
 
+    /**
+     * Decode extended key.
+     *
+     * @param key the key
+     * @return the byte[]
+     */
     public static byte[] decodeExtendedKey(String key) {
         BigInteger number = ZERO;
         for (Character c : key.toCharArray()) {
@@ -134,18 +175,43 @@ public class Base58 {
         return BigIntegers.asUnsignedByteArray(number);
     }
 
+    /**
+     * Decode with checksum to hex.
+     *
+     * @param key the key
+     * @return the string
+     */
     public static String decodeWithChecksumToHex(String key) {
         return Hex.toHexString(decodeWithChecksum(key));
     }
 
+    /**
+     * Checks if is valid address.
+     *
+     * @param combined the combined
+     * @param checksum the checksum
+     * @return true, if is valid address
+     */
     private static boolean isValidAddress(byte[] combined, byte[] checksum) {
         return Arrays.equals(copyOfRange(Hash256.hash(copyOfRange(combined, 0, 21)), 0, 4), checksum);
     }
 
+    /**
+     * Encode from hex.
+     *
+     * @param key the key
+     * @return the string
+     */
     public static String encodeFromHex(String key) {
         return encode(Hex.decodeStrict(key));
     }
 
+    /**
+     * Encode with checksum from hex.
+     *
+     * @param key the key
+     * @return the string
+     */
     public static String encodeWithChecksumFromHex(String key) {
         return encodeWithChecksum(Hex.decodeStrict(key));
     }

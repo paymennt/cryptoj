@@ -1,4 +1,7 @@
-package com.paymennt.crypto.core.lib;
+/************************************************************************
+ * Copyright PointCheckout, Ltd.
+ */
+package com.paymennt.crypto.lib;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.ZERO;
@@ -12,13 +15,31 @@ import java.util.List;
 
 import org.bouncycastle.util.encoders.Hex;
 
+/**
+ * The Class Bech32.
+ */
 public class Bech32 {
     
+    /** The Constant BECH32_ALPHABET. */
     private static final String BECH32_ALPHABET = "qpzry9x8gf2tvdw0s3jn54khce6mua7l";
+    
+    /** The Constant BECH32. */
     public static final int BECH32 = 1;
+    
+    /** The Constant BECH32M. */
     public static final int BECH32M = 2;
+    
+    /** The Constant BECH32M_CONST. */
     private static final int BECH32M_CONST = 0x2bc830a3;
     
+    /**
+     * Creates the checksum.
+     *
+     * @param hrp the hrp
+     * @param data the data
+     * @param spec the spec
+     * @return the list
+     */
     public static List<Integer> createChecksum(
         String hrp,
         List<Integer> data,
@@ -39,6 +60,12 @@ public class Bech32 {
         return checksum;
     }
     
+    /**
+     * Hrp expand.
+     *
+     * @param hrp the hrp
+     * @return the list
+     */
     public static List<Integer> hrpExpand(String hrp) {
         List<Integer> list = new ArrayList<>();
         for (char c : hrp.toCharArray()) {
@@ -51,6 +78,12 @@ public class Bech32 {
         return list;
     }
     
+    /**
+     * Polymod.
+     *
+     * @param values the values
+     * @return the big integer
+     */
     public static BigInteger polymod(List<Integer> values) {
         BigInteger[] generator = new BigInteger[] {
             new BigInteger(1, Hex.decode("3b6a57b2")),
@@ -74,6 +107,14 @@ public class Bech32 {
         return checksum;
     }
     
+    /**
+     * Encode.
+     *
+     * @param hrp the hrp
+     * @param witnessVersion the witness version
+     * @param witnessProgram the witness program
+     * @return the string
+     */
     public static String encode(
         String hrp,
         int witnessVersion,
@@ -91,6 +132,14 @@ public class Bech32 {
         return result;
     }
     
+    /**
+     * Bech 32 encode.
+     *
+     * @param hrp the hrp
+     * @param combinedProgram the combined program
+     * @param spec the spec
+     * @return the string
+     */
     private static String bech32Encode(
         String hrp,
         ArrayList<Integer> combinedProgram,
@@ -107,6 +156,13 @@ public class Bech32 {
         return stringBuilder.toString();
     }
     
+    /**
+     * Decode.
+     *
+     * @param hrp the hrp
+     * @param address the address
+     * @return the string[]
+     */
     @SuppressWarnings("unchecked")
     public static String[] decode(
         String hrp,
@@ -153,6 +209,12 @@ public class Bech32 {
         };
     }
     
+    /**
+     * Bech 32 decode.
+     *
+     * @param address the address
+     * @return the object[]
+     */
     private static Object[] bech32Decode(String address) {
         int position = address.lastIndexOf("1");
         if (!isValidAddress(address, position)) {
@@ -178,6 +240,13 @@ public class Bech32 {
         };
     }
     
+    /**
+     * Checks if is valid address.
+     *
+     * @param address the address
+     * @param position the position
+     * @return true, if is valid address
+     */
     private static boolean isValidAddress(
         String address,
         int position
@@ -193,6 +262,13 @@ public class Bech32 {
         return !isMixedCase(address);
     }
     
+    /**
+     * Verify checksum.
+     *
+     * @param hrp the hrp
+     * @param data the data
+     * @return the big integer
+     */
     private static BigInteger verifyChecksum(
         String hrp,
         List<Integer> data
@@ -209,6 +285,12 @@ public class Bech32 {
         return null;
     }
     
+    /**
+     * Checks if is mixed case.
+     *
+     * @param address the address
+     * @return true, if is mixed case
+     */
     private static boolean isMixedCase(String address) {
         return !address.toLowerCase().equals(address) && !address.toUpperCase().equals(address);
     }

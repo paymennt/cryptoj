@@ -1,4 +1,7 @@
-package com.paymennt.crypto.core.lib;
+/************************************************************************
+ * Copyright PointCheckout, Ltd.
+ */
+package com.paymennt.crypto.lib;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -6,7 +9,20 @@ import java.util.List;
 
 import static java.math.BigInteger.*;
 
+/**
+ * The Class BitsConverter.
+ */
 public class BitsConverter {
+    
+    /**
+     * Convert bits.
+     *
+     * @param key the key
+     * @param fromBits the from bits
+     * @param toBits the to bits
+     * @param pad the pad
+     * @return the list
+     */
     public static List<Integer> convertBits(byte[] key, int fromBits, int toBits, boolean pad) {
         BigInteger acc = ZERO;
         BigInteger bits = ZERO;
@@ -34,6 +50,15 @@ public class BitsConverter {
         return result;
     }
 
+    /**
+     * Convert bits.
+     *
+     * @param key the key
+     * @param fromBits the from bits
+     * @param toBits the to bits
+     * @param pad the pad
+     * @return the list
+     */
     public static List<Integer> convertBits(List<Integer> key, int fromBits, int toBits, boolean pad) {
         BigInteger acc = ZERO;
         BigInteger bits = ZERO;

@@ -1,4 +1,7 @@
-package com.paymennt.crypto.core.lib;
+/************************************************************************
+ * Copyright PointCheckout, Ltd.
+ */
+package com.paymennt.crypto.lib;
 
 import org.bouncycastle.math.ec.ECFieldElement;
 import org.bouncycastle.math.ec.ECPoint;
@@ -6,10 +9,20 @@ import org.bouncycastle.math.ec.custom.sec.SecP256K1FieldElement;
 
 import java.math.BigInteger;
 
-import static com.paymennt.crypto.core.lib.SecP256K1.*;
+import static com.paymennt.crypto.lib.SecP256K1.*;
 import static java.math.BigInteger.*;
 
+/**
+ * The Class BIP340.
+ */
 public class BIP340 {
+    
+    /**
+     * Lift X.
+     *
+     * @param pubKeyX the pub key X
+     * @return the EC point
+     */
     public static ECPoint liftX(BigInteger pubKeyX) {
         SecP256K1FieldElement xElement;
         try {

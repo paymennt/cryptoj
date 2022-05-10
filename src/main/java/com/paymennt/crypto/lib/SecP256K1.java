@@ -1,4 +1,7 @@
-package com.paymennt.crypto.core.lib;
+/************************************************************************
+ * Copyright PointCheckout, Ltd.
+ */
+package com.paymennt.crypto.lib;
 
 import org.bouncycastle.crypto.params.ECDomainParameters;
 import org.bouncycastle.math.ec.ECFieldElement;
@@ -12,17 +15,35 @@ import java.math.BigInteger;
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.valueOf;
 
+/**
+ * The Class SecP256K1.
+ */
 public class SecP256K1 {
+    
+    /** The Constant order. */
     public static final BigInteger order =
         new BigInteger(1, Hex.decodeStrict("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141"));
+    
+    /** The Constant curve. */
     public static final SecP256K1Curve curve = new SecP256K1Curve();
+    
+    /** The Constant G. */
     public static final ECPoint G = curve.createPoint(
         new BigInteger(1, Hex.decodeStrict("79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798")),
         new BigInteger(1, Hex.decodeStrict("483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8"))
     );
+    
+    /** The Constant ecDomainParameters. */
     public static final ECDomainParameters ecDomainParameters =
         new ECDomainParameters(SecP256K1.curve, SecP256K1.G, SecP256K1.order);
     
+    /**
+     * Pow.
+     *
+     * @param x the x
+     * @param exponent the exponent
+     * @return the EC field element
+     */
     public static ECFieldElement pow(
         ECFieldElement x,
         BigInteger exponent
@@ -32,6 +53,12 @@ public class SecP256K1 {
         return new SecP256K1FieldElement(num);
     }
     
+    /**
+     * Sqrt.
+     *
+     * @param x the x
+     * @return the EC field element
+     */
     public static ECFieldElement sqrt(ECFieldElement x) {
         return pow(x, SecP256K1FieldElement.Q.add(ONE).divide(valueOf(4)));
     }

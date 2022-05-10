@@ -1,3 +1,6 @@
+/************************************************************************
+ * Copyright PointCheckout, Ltd.
+ */
 package com.paymennt.crypto.core.key;
 
 import java.io.ByteArrayInputStream;
@@ -9,23 +12,31 @@ import org.bouncycastle.pqc.math.linearalgebra.ByteUtils;
 import org.bouncycastle.util.BigIntegers;
 import org.bouncycastle.util.encoders.Hex;
 
-import com.paymennt.crypto.core.lib.Base58;
+import com.paymennt.crypto.lib.Base58;
 
+/**
+ */
 public class ExtendedPublicKey {
+
+    /** key. */
     private final byte[] key;
-    
+
+    /** prefix. */
     private final String prefix;
-    
+
+    /** fingerprint. */
     private final String fingerprint;
-    
+
+    /** depth. */
     private final String depth;
-    
+
+    /** child number. */
     private final String childNumber;
-    
+
     /*******************************************************************************************************************
-     * STATIC METHODS
+     * STATIC METHODS.
      */
-    
+
     /**
      * @param key
      * @param depth
@@ -35,34 +46,29 @@ public class ExtendedPublicKey {
      * @return
      */
     public static ExtendedPublicKey fromPrivateKey(
-        byte[] key,
-        long depth,
-        String fingerprint,
-        BigInteger childNumber,
-        String prefix
-    ) {
+            byte[] key,
+            long depth,
+            String fingerprint,
+            BigInteger childNumber,
+            String prefix) {
         int keyBytesLength = 32 - (64 - key.length);
         byte[] keyBytes = ByteUtils.subArray(key, 0, keyBytesLength);
         byte[] chainCode = ByteUtils.subArray(key, keyBytesLength, key.length);
-        
+
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         PrivateKey privateKey = new PrivateKey(new BigInteger(1, keyBytes));
         byteArrayOutputStream.writeBytes(privateKey.getPublicKey().getCompressedPublicKey());
         byteArrayOutputStream.writeBytes(chainCode);
-        
-        return new ExtendedPublicKey(
-            byteArrayOutputStream.toByteArray(),
-            prefix,
-            Hex.toHexString(BigIntegers.asUnsignedByteArray(1, BigInteger.valueOf(depth))),
-            fingerprint,
-            Hex.toHexString(BigIntegers.asUnsignedByteArray(4, childNumber))
-        );
+
+        return new ExtendedPublicKey(byteArrayOutputStream.toByteArray(), prefix,
+                Hex.toHexString(BigIntegers.asUnsignedByteArray(1, BigInteger.valueOf(depth))), fingerprint,
+                Hex.toHexString(BigIntegers.asUnsignedByteArray(4, childNumber)));
     }
-    
+
     /*******************************************************************************************************************
-     * CONSTRUCTOR
+     * CONSTRUCTOR.
      */
-    
+
     /**
      * @param key
      * @param prefix
@@ -77,11 +83,11 @@ public class ExtendedPublicKey {
         this.fingerprint = fingerprint;
         this.childNumber = childNumber;
     }
-    
+
     /*******************************************************************************************************************
-     * PUBLIC METHODS
+     * PUBLIC METHODS.
      */
-    
+
     /**
      * @return
      */
@@ -89,9 +95,11 @@ public class ExtendedPublicKey {
         byte[] keyBytes = ByteUtils.subArray(key, 0, 33);
         return PublicKey.fromCompressedPublicKey(keyBytes);
     }
-    
+
     /**
-     * @return
+     * Serialize.
+     *
+     * @return string
      */
     public String serialize() {
         byte[] keyBytes = ByteUtils.subArray(key, 0, 33);
@@ -105,11 +113,13 @@ public class ExtendedPublicKey {
         byteArrayOutputStream.writeBytes(keyBytes);
         return Base58.encodeWithChecksum(byteArrayOutputStream.toByteArray());
     }
-    
+
     /**
+     * Unserialize.
+     *
      * @param serialized
-     * @return
-     * @throws IOException
+     * @return extended public key
+     * @throws IOException Signals that an I/O exception has occurred.
      */
     public static ExtendedPublicKey unserialize(String serialized) throws IOException {
         byte[] bytes = Base58.decodeExtendedKey(serialized);
@@ -121,13 +131,8 @@ public class ExtendedPublicKey {
         byte[] chainCodeBytes = byteArrayInputStream.readNBytes(32);
         byte[] keyBytes = byteArrayInputStream.readNBytes(33);
         byte[] combinedKey = ByteUtils.concatenate(keyBytes, chainCodeBytes);
-        return new ExtendedPublicKey(
-            combinedKey,
-            Hex.toHexString(prefixBytes),
-            Hex.toHexString(depthBytes),
-            Hex.toHexString(fingerprintBytes),
-            Hex.toHexString(childNumberBytes)
-        );
+        return new ExtendedPublicKey(combinedKey, Hex.toHexString(prefixBytes), Hex.toHexString(depthBytes),
+                Hex.toHexString(fingerprintBytes), Hex.toHexString(childNumberBytes));
     }
-    
+
 }

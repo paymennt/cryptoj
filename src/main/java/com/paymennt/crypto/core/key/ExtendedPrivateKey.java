@@ -1,3 +1,6 @@
+/************************************************************************
+ * Copyright PointCheckout, Ltd.
+ */
 package com.paymennt.crypto.core.key;
 
 import static java.math.BigInteger.ONE;
@@ -13,34 +16,48 @@ import org.bouncycastle.util.BigIntegers;
 import org.bouncycastle.util.encoders.Hex;
 
 import com.paymennt.crypto.core.derivation.DerivationPath;
-import com.paymennt.crypto.core.lib.Base58;
-import com.paymennt.crypto.core.lib.HMacSha512;
-import com.paymennt.crypto.core.lib.Hash160;
-import com.paymennt.crypto.core.lib.SecP256K1;
+import com.paymennt.crypto.lib.Base58;
+import com.paymennt.crypto.lib.HMacSha512;
+import com.paymennt.crypto.lib.Hash160;
+import com.paymennt.crypto.lib.SecP256K1;
 
+/**
+ */
 public class ExtendedPrivateKey {
-    
+
+    /** key. */
     private final byte[] key;
-    
+
+    /** prefix. */
     private final String prefix;
-    
+
+    /** fingerprint. */
     private final String fingerprint;
-    
+
+    /** depth. */
     private final String depth;
-    
+
+    /** child number. */
     private final String childNumber;
-    
-    /*******************************************************************************************************************
-     * STATIC METHODS
+
+    /**
+     * *****************************************************************************************************************
+     * STATIC METHODS.
+     *
+     * @param key
+     * @param depth
+     * @param fingerprint
+     * @param childNumber
+     * @param prefix
+     * @return extended private key
      */
-    
+
     public static ExtendedPrivateKey from(
-        byte[] key,
-        long depth,
-        String fingerprint,
-        BigInteger childNumber,
-        String prefix
-    ) {
+            byte[] key,
+            long depth,
+            String fingerprint,
+            BigInteger childNumber,
+            String prefix) {
         int keyBytesLength = 32 - (64 - key.length);
         byte[] keyBytes = ByteUtils.subArray(key, 0, keyBytesLength);
         byte[] chainCode = ByteUtils.subArray(key, keyBytesLength, key.length);
@@ -52,20 +69,16 @@ public class ExtendedPrivateKey {
         }
         byteArrayOutputStream.writeBytes(keyBytes);
         byteArrayOutputStream.writeBytes(chainCode);
-        
-        return new ExtendedPrivateKey(
-            byteArrayOutputStream.toByteArray(),
-            prefix,
-            Hex.toHexString(BigIntegers.asUnsignedByteArray(1, valueOf(depth))),
-            fingerprint,
-            Hex.toHexString(BigIntegers.asUnsignedByteArray(4, childNumber))
-        );
+
+        return new ExtendedPrivateKey(byteArrayOutputStream.toByteArray(), prefix,
+                Hex.toHexString(BigIntegers.asUnsignedByteArray(1, valueOf(depth))), fingerprint,
+                Hex.toHexString(BigIntegers.asUnsignedByteArray(4, childNumber)));
     }
-    
+
     /*******************************************************************************************************************
-     * CONSTRUCTOR
+     * CONSTRUCTOR.
      */
-    
+
     /**
      * @param key
      * @param prefix
@@ -80,72 +93,66 @@ public class ExtendedPrivateKey {
         this.fingerprint = fingerprint;
         this.childNumber = childNumber;
     }
-    
+
     /*******************************************************************************************************************
-     * PUBLIC METHODS
+     * PUBLIC METHODS.
      */
-    
+
     /**
-     * @return
+     * @return private key
      */
     public PrivateKey toPrivateKey() {
         byte[] keyBytes = ByteUtils.subArray(this.key, 0, 32);
         return new PrivateKey(new BigInteger(1, keyBytes));
     }
-    
+
     /**
-     * @return
+     * @return public key
      */
     public PublicKey toPublicKey() {
         return this.toPrivateKey().getPublicKey();
     }
-    
+
     /**
-     * @return
+     * @param addressIndex
+     * @return private key
      */
     public PrivateKey toAddressPrivateKey(int addressIndex) {
-        ExtendedPrivateKey addressEPK = this.childKeyDerivation(
-            new BigInteger(Integer.toString(addressIndex)),
-            false
-        );
+        ExtendedPrivateKey addressEPK = this.childKeyDerivation(new BigInteger(Integer.toString(addressIndex)), false);
         byte[] keyBytes = ByteUtils.subArray(addressEPK.key, 0, 32);
         return new PrivateKey(new BigInteger(1, keyBytes));
     }
-    
+
     /**
-     * @return
+     * @param addressIndex
+     * @return public key
      */
     public PublicKey toAddressPublicKey(int addressIndex) {
         return this.toAddressPrivateKey(addressIndex).getPublicKey();
     }
-    
+
     /**
-     * @return
+     * @param pubPrefix
+     * @return extended public key
      */
     public ExtendedPublicKey toExtendedPublicKey(String pubPrefix) {
-        return ExtendedPublicKey.fromPrivateKey(
-            this.key,
-            BigIntegers.fromUnsignedByteArray(Hex.decode(this.depth)).longValue(),
-            this.fingerprint,
-            BigIntegers.fromUnsignedByteArray(Hex.decode(this.childNumber)),
-            pubPrefix
-        );
+        return ExtendedPublicKey.fromPrivateKey(this.key,
+                BigIntegers.fromUnsignedByteArray(Hex.decode(this.depth)).longValue(), this.fingerprint,
+                BigIntegers.fromUnsignedByteArray(Hex.decode(this.childNumber)), pubPrefix);
     }
-    
+
     /**
-     * @return
+     * @return the key
      */
     public byte[] getKey() {
         return this.key;
     }
-    
+
     /**
-     * @param derivationPath
-     * @return
+     * @param derivationPath the derivation path
+     * @return extended private key
      */
-    public ExtendedPrivateKey getExtendedPrivateKey(
-        DerivationPath derivationPath
-    ) {
+    public ExtendedPrivateKey getExtendedPrivateKey(DerivationPath derivationPath) {
         String strPath = derivationPath.getPath();
         String[] indexes = strPath.split("/");
         ExtendedPrivateKey extendedKey = this;
@@ -154,16 +161,15 @@ public class ExtendedPrivateKey {
             if ("m".equals(index))
                 continue;
             boolean hardened = index.endsWith("'");
-            extendedKey = extendedKey.childKeyDerivation(
-                new BigInteger(index.replace("'", "")),
-                hardened
-            );
+            extendedKey = extendedKey.childKeyDerivation(new BigInteger(index.replace("'", "")), hardened);
         }
         return extendedKey;
     }
-    
+
     /**
-     * @return
+     * Serialize.
+     *
+     * @return string
      */
     public String serialize() {
         byte[] keyBytes = ByteUtils.subArray(key, 0, 32);
@@ -178,11 +184,13 @@ public class ExtendedPrivateKey {
         byteArrayOutputStream.writeBytes(keyBytes);
         return Base58.encodeWithChecksum(byteArrayOutputStream.toByteArray());
     }
-    
+
     /**
+     * Unserialize.
+     *
      * @param serialized
-     * @return
-     * @throws IOException
+     * @return extended private key
+     * @throws IOException Signals that an I/O exception has occurred.
      */
     public static ExtendedPrivateKey unserialize(String serialized) throws IOException {
         byte[] bytes = Base58.decodeExtendedKey(serialized);
@@ -195,28 +203,18 @@ public class ExtendedPrivateKey {
         byteArrayInputStream.skip(1);
         byte[] keyBytes = byteArrayInputStream.readNBytes(32);
         byte[] combinedKey = ByteUtils.concatenate(keyBytes, chainCodeBytes);
-        return new ExtendedPrivateKey(
-            combinedKey,
-            Hex.toHexString(prefixBytes),
-            Hex.toHexString(depthBytes),
-            Hex.toHexString(fingerprintBytes),
-            Hex.toHexString(childNumberBytes)
-        );
+        return new ExtendedPrivateKey(combinedKey, Hex.toHexString(prefixBytes), Hex.toHexString(depthBytes),
+                Hex.toHexString(fingerprintBytes), Hex.toHexString(childNumberBytes));
     }
-    
+
     /*******************************************************************************************************************
-    * PRIVATE METHODS
-    */
-    
-    /**
+     * PRIVATE METHODS.
+     *
      * @param index
      * @param isHardened
-     * @return
+     * @return extended private key
      */
-    private ExtendedPrivateKey childKeyDerivation(
-        BigInteger index,
-        boolean isHardened
-    ) {
+    private ExtendedPrivateKey childKeyDerivation(BigInteger index, boolean isHardened) {
         byte[] keyBytes = ByteUtils.subArray(key, 0, 32);
         byte[] chainCode = ByteUtils.subArray(key, 32, key.length);
         BigInteger actualIndex = index;
@@ -232,21 +230,15 @@ public class ExtendedPrivateKey {
         }
         data.writeBytes(BigIntegers.asUnsignedByteArray(4, actualIndex));
         rawKey = HMacSha512.hash(chainCode, data.toByteArray());
-        
+
         byte[] childRawKey = ByteUtils.subArray(rawKey, 0, 32);
         byte[] childChainCode = ByteUtils.subArray(rawKey, 32, rawKey.length);
         byte[] childKey = BigIntegers.asUnsignedByteArray(
-            new BigInteger(1, childRawKey).add(new BigInteger(1, keyBytes)).mod(SecP256K1.order)
-        );
+                new BigInteger(1, childRawKey).add(new BigInteger(1, keyBytes)).mod(SecP256K1.order));
         String childFingerprint = Hash160.hashToHex(publicKey.getCompressedPublicKey()).substring(0, 8);
         long depth = new BigInteger(this.depth).add(ONE).longValueExact();
-        return ExtendedPrivateKey.from(
-            ByteUtils.concatenate(childKey, childChainCode),
-            depth,
-            childFingerprint,
-            actualIndex,
-            this.prefix
-        );
+        return ExtendedPrivateKey.from(ByteUtils.concatenate(childKey, childChainCode), depth, childFingerprint,
+                actualIndex, this.prefix);
     }
-    
+
 }

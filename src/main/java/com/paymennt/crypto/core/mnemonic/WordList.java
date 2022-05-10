@@ -1,3 +1,6 @@
+/************************************************************************
+ * Copyright PointCheckout, Ltd.
+ */
 package com.paymennt.crypto.core.mnemonic;
 
 import java.util.Arrays;
@@ -16,6 +19,7 @@ import java.util.Map;
  */
 public enum WordList {
 
+    /** english. */
     ENGLISH(
         Arrays.asList("abandon", "ability", "able", "about", "above", "absent", "absorb", "abstract", "absurd",
             "abuse", "access", "accident", "account", "accuse", "achieve", "acid", "acoustic", "acquire",
@@ -218,18 +222,14 @@ public enum WordList {
             "wrestle", "wrist", "write", "wrong", "yard", "year", "yellow", "you", "young", "youth", "zebra",
             "zero", "zone", "zoo"));
 
-    /**
-     * 
-     */
+    /** words. */
     private final List<String> words;
 
-    /**
-     * Internal only tree used to lookup word index
-     */
+    /** Internal only tree used to lookup word index. */
     private final MnemonicTree mnemonicTree;
 
     /**
-     * @param words
+     * @param words the words
      */
     WordList(List<String> words) {
         this.words = words;
@@ -240,30 +240,40 @@ public enum WordList {
     }
 
     /**
-     * Efficiently return the index of the word within the original word list - log(n) 
-     * @param word
-     * @return
+     * Efficiently return the index of the word within the original word list - log(n) .
+     *
+     * @param word the word
+     * @return the word index
      */
     public Integer getWordIndex(char[] word) {
         return this.mnemonicTree.getIndex(word);
     }
 
     /**
-     * @return
+     * Gets the word by index.
+     *
+     * @param index the index
+     * @return the word at index
      */
     public String getWordAtIndex(int index) {
         return this.words.get(index);
     }
 
     /**
-     * 
-     * 
      * @author bashar
      */
     private class MnemonicTree {
+        
+        /** leaf index. */
         private Integer leafIndex = null;
+        
+        /** branches. */
         private Map<Character, MnemonicTree> branches = new HashMap<>();
 
+        /**
+         * @param leafIndex the leaf index
+         * @param characters the characters
+         */
         public void addPath(Integer leafIndex, char... characters) {
             LinkedList<Character> path = new LinkedList<>();
             for (char c : characters)
@@ -271,6 +281,10 @@ public enum WordList {
             this.addPath(leafIndex, path);
         }
 
+        /**
+         * @param leafIndex the leaf index
+         * @param path the path
+         */
         public void addPath(Integer leafIndex, LinkedList<Character> path) {
             Character c = path.poll();
             if (c == null) {
@@ -282,6 +296,10 @@ public enum WordList {
             }
         }
 
+        /**
+         * @param characters the characters
+         * @return the index
+         */
         public Integer getIndex(char... characters) {
             LinkedList<Character> path = new LinkedList<>();
             for (char c : characters)
@@ -289,6 +307,10 @@ public enum WordList {
             return getIndex(path);
         }
 
+        /**
+         * @param path the path
+         * @return the index
+         */
         public Integer getIndex(LinkedList<Character> path) {
             if (path.isEmpty())
                 return this.leafIndex;

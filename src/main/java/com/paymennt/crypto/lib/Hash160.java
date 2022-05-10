@@ -1,4 +1,7 @@
-package com.paymennt.crypto.core.lib;
+/************************************************************************
+ * Copyright PointCheckout, Ltd.
+ */
+package com.paymennt.crypto.lib;
 
 import org.bouncycastle.util.encoders.Hex;
 
@@ -6,7 +9,17 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.NoSuchElementException;
 
+/**
+ * The Class Hash160.
+ */
 public class Hash160 {
+    
+    /**
+     * Hash.
+     *
+     * @param key the key
+     * @return the byte[]
+     */
     public static byte[] hash(byte[] key) {
         MessageDigest ripemd = null;
         try {
@@ -23,6 +36,12 @@ public class Hash160 {
         return ripemd.digest(sha256.digest(key));
     }
 
+    /**
+     * Hash to hex.
+     *
+     * @param key the key
+     * @return the string
+     */
     public static String hashToHex(byte[] key) {
         return Hex.toHexString(hash(key));
     }

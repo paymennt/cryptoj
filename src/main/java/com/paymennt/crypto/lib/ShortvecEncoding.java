@@ -1,7 +1,19 @@
-package com.paymennt.crypto.core.lib;
+/************************************************************************
+ * Copyright PointCheckout, Ltd.
+ */
+package com.paymennt.crypto.lib;
 
+/**
+ * The Class ShortvecEncoding.
+ */
 public class ShortvecEncoding {
 
+    /**
+     * Encode length.
+     *
+     * @param len the len
+     * @return the byte[]
+     */
     public static byte[] encodeLength(int len) {
         byte[] out = new byte[10];
         int remLen = len;

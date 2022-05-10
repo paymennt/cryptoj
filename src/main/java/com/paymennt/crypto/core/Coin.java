@@ -1,6 +1,5 @@
-/************************************************************************ 
+/************************************************************************
  * Copyright PointCheckout, Ltd.
- * 
  */
 
 package com.paymennt.crypto.core;
@@ -11,67 +10,92 @@ import java.math.MathContext;
 
 /**
  * @author bashar
- *
  */
 public enum Coin {
-    // BITCOIN
-    BTC(0, 100_000_000L, "BTC", false, 1, 6),
-    TBTC(1, 100_000_000L, "BTC", true, 1, 2),
 
+    /** Bitcoin */
+    BTC(0, 100_000_000L, "BTC", false),
+
+    /** test Bitcoin */
+    TBTC(1, 100_000_000L, "BTC", true),
+
+    /** Solana. */
     // SOLANA
-    SOL(501, 1_000_000_000L, "SOL", false, 15, 31),
-    TSOL(1, 1_000_000_000L, "SOL", true, 15, 31);
+    SOL(501, 1_000_000_000L, "SOL", false),
 
-    private final int derivationPathCoinType;
+    /** test Solana */
+    TSOL(1, 1_000_000_000L, "SOL", true);
+
+    /** HD wallet derivation path */
+    private final int derivationPath;
+
+    /** fraction per coin
+     *  Bitcoin -> Satoshi
+     *  Solana -> Lamport 
+     */
     private final long fractionalUnitScale;
+
+    /** coin code */
     private final String code;
+
+    /** is this a test coin */
     private final boolean testCoin;
 
-    private final int moderateConfirmation;
-    private final int highConfirmation;
-
-    private Coin(int derivationPathCoinType, long fractionalUnitScale, String code, boolean testCoin,
-            int moderateConfirmation, int highConfirmation) {
-        this.derivationPathCoinType = derivationPathCoinType;
+    /**
+     * 
+     */
+    private Coin(int derivationPath, long fractionalUnitScale, String code, boolean testCoin) {
+        this.derivationPath = derivationPath;
         this.fractionalUnitScale = fractionalUnitScale;
         this.code = code;
         this.testCoin = testCoin;
-        this.moderateConfirmation = moderateConfirmation;
-        this.highConfirmation = highConfirmation;
 
     }
 
-    public int getDerivationPathCoinType() {
-        return this.derivationPathCoinType;
+    /**
+     * @return the derivation path
+     */
+    public int getDerivationPath() {
+        return this.derivationPath;
     }
 
+    /**
+     * @return true, if is a test coin
+     */
     public boolean isTestCoin() {
         return this.testCoin;
     }
 
+    /**
+     * @return the coin code
+     */
     public String getCode() {
         return this.code;
     }
 
-    public static Coin getCoinForDerivationPathCoinType(int derivationPathCoinType) {
+    /**
+     * @param derivationPath the derivation path
+     * @return the coin of the derivation path
+     */
+    public static Coin getCoinForDerivationPathCoinType(int derivationPath) {
         for (Coin coin : Coin.values())
-            if (coin.derivationPathCoinType == derivationPathCoinType)
+            if (coin.derivationPath == derivationPath)
                 return coin;
         return null;
     }
 
-    public ConfirmationConfidence getConfidence(int confirmations) {
-        if (confirmations >= highConfirmation)
-            return ConfirmationConfidence.HIGH;
-        if (confirmations >= moderateConfirmation)
-            return ConfirmationConfidence.MODERATE;
-        return ConfirmationConfidence.LOW;
-    }
-
+    /**
+     * @param value the coin amount
+     * @return fractions of the given value
+     */
     public BigInteger coinToFractions(BigDecimal value) {
         return value.multiply(BigDecimal.valueOf(this.fractionalUnitScale)).toBigInteger();
     }
 
+    /**
+     * @param value the fractions amount
+     * @return coin amount of the given value
+     */
     public BigDecimal fractionsToCoin(BigInteger value) {
         return new BigDecimal(value).divide(BigDecimal.valueOf(fractionalUnitScale), MathContext.DECIMAL32);
     }
