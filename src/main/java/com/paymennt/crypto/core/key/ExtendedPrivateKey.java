@@ -207,14 +207,13 @@ public class ExtendedPrivateKey {
                 Hex.toHexString(fingerprintBytes), Hex.toHexString(childNumberBytes));
     }
 
-    /*******************************************************************************************************************
-     * PRIVATE METHODS.
+    /**
      *
      * @param index
      * @param isHardened
      * @return extended private key
      */
-    private ExtendedPrivateKey childKeyDerivation(BigInteger index, boolean isHardened) {
+    public ExtendedPrivateKey childKeyDerivation(BigInteger index, boolean isHardened) {
         byte[] keyBytes = ByteUtils.subArray(key, 0, 32);
         byte[] chainCode = ByteUtils.subArray(key, 32, key.length);
         BigInteger actualIndex = index;
