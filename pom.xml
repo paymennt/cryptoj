@@ -67,7 +67,7 @@
 					<target>11</target>
 				</configuration>
 			</plugin>
-
+<!--
 
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
@@ -124,7 +124,7 @@
 					</execution>
 				</executions>
 			</plugin>
-
+ -->
 
 		</plugins>
 	</build>
