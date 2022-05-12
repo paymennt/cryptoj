@@ -89,17 +89,20 @@ public class DerivationPath {
      * @author bash83
      */
     public enum Purpose {
+    	
+        /** BIP 39 */
+        BIP39("39"),
 
-        /** The bip44. */
+        /** BIP 44 */
         BIP44("44"),
 
-        /** The bip49. */
+        /** BIP 49 */
         BIP49("49"),
 
-        /** The bip84. */
+        /** BIP 84 */
         BIP84("84");
 
-        /** The bip. */
+        /** BIP */
         protected final String bip;
 
         /**

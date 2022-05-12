@@ -24,7 +24,7 @@ public enum Coin {
     SOL(501, 1_000_000_000L, "SOL", false),
 
     /** test Solana */
-    TSOL(1, 1_000_000_000L, "SOL", true);
+    TSOL(501, 1_000_000_000L, "SOL", true);
 
     /** HD wallet derivation path */
     private final int derivationPath;

@@ -15,7 +15,7 @@ import java.math.BigInteger;
 import org.bouncycastle.math.ec.ECFieldElement;
 import org.bouncycastle.math.ec.ECPoint;
 import org.bouncycastle.math.ec.custom.sec.SecP256K1FieldElement;
-import org.bouncycastle.pqc.math.linearalgebra.ByteUtils;
+import org.bouncycastle.util.Arrays;
 import org.bouncycastle.util.BigIntegers;
 import org.bouncycastle.util.encoders.Hex;
 
@@ -50,7 +50,7 @@ public class PublicKey {
      * @return the public key
      */
     public static PublicKey fromCompressedPublicKey(byte[] compressedPublicKey) {
-        BigInteger x = new BigInteger(1, ByteUtils.subArray(compressedPublicKey, 1, 33));
+        BigInteger x = new BigInteger(1, Arrays.copyOfRange(compressedPublicKey, 1, 33));
         SecP256K1FieldElement xElement = new SecP256K1FieldElement(x);
 
         boolean isEven = compressedPublicKey[0] == 2;
