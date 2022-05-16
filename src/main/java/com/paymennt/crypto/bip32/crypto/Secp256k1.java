@@ -13,7 +13,7 @@ import org.bouncycastle.math.ec.ECPoint;
 import java.math.BigInteger;
 
 public class Secp256k1 {
-    static final X9ECParameters SECP = CustomNamedCurves.getByName("secp256k1");
+    public static final X9ECParameters SECP = CustomNamedCurves.getByName("secp256k1");
 
     /**
      * serP(P): serializes the coordinate pair P = (x,y) as a byte sequence using
@@ -27,10 +27,10 @@ public class Secp256k1 {
         return p.getEncoded(true);
     }
 
-    public static ECPoint deserP(byte[] p)
-    {
+    public static ECPoint deserP(byte[] p) {
         return SECP.getCurve().decodePoint(p);
     }
+
     /**
      * point(p): returns the coordinate pair resulting from EC point multiplication
      * (repeated application of the EC group operation) of the secp256k1 base point

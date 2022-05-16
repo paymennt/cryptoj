@@ -6,6 +6,8 @@
  */
 package com.paymennt.crypto.bip32.wallet.key;
 
+import org.bouncycastle.util.encoders.Hex;
+
 /**
  * Defines a key with a given public key
  */
@@ -18,5 +20,9 @@ public class HdPublicKey extends HdKey {
 
     public void setPublicKey(byte[] publicKey) {
         this.publicKey = publicKey;
+    }
+
+    public String getHex() {
+        return Hex.toHexString(publicKey);
     }
 }

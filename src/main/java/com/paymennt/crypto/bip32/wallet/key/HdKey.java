@@ -70,7 +70,7 @@ public class HdKey {
      * Get the full chain key.  This is not the public/private key for the address.
      * @return full HD Key
      */
-    public byte[] getKey() {
+    public byte[] getPublicKey() {
 
         ByteArrayOutputStream key = new ByteArrayOutputStream();
 
