@@ -36,7 +36,7 @@ public class Bip39TestSuite {
             @Override
             public String getAddress(int account, Chain chain, Integer index) {
 
-                byte[] hash160 = Hash160.hash(getPublicKey(account, chain, index));
+                byte[] hash160 = Hash160.hash(getPublicKey(account, chain, index).getPublicKey());
                 return Bech32.encode("bc", 0, hash160);
             }
         };
@@ -56,7 +56,7 @@ public class Bip39TestSuite {
         // derivation path: m/84'/0'/0'/0/11 
         // public: 027476ebfc5fadf2e44df5d53d04eef907a591a74c9d104836dd85ffd1cf8555e5
         assertEquals("027476ebfc5fadf2e44df5d53d04eef907a591a74c9d104836dd85ffd1cf8555e5",
-                Hex.toHexString(wallet.getPublicKey(0, Chain.EXTERNAL, 11)));
+                Hex.toHexString(wallet.getPublicKey(0, Chain.EXTERNAL, 11).getPublicKey()));
     }
 
 }

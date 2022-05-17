@@ -6,8 +6,6 @@
  */
 package com.paymennt.crypto.bip32.crypto;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.math.BigInteger;
 import java.util.Arrays;
 
@@ -68,7 +66,7 @@ public class HdUtil {
     public static byte[] ser256LE(BigInteger p) {
 
         byte[] byteArray = p.toByteArray();
-        ArrayUtils.reverse(byteArray);
+        reverse(byteArray);
 
         byte[] ret = new byte[32];
 
@@ -104,8 +102,8 @@ public class HdUtil {
      * @return 256 bit number
      */
     public static BigInteger parse256LE(byte[] p) {
-        byte[] copy = ArrayUtils.clone(p);
-        ArrayUtils.reverse(copy);
+        byte[] copy = clone(p);
+        reverse(copy);
 
         return new BigInteger(1, copy);
     }
@@ -133,7 +131,7 @@ public class HdUtil {
     public static byte[] getFingerprint(byte[] keyData) {
         byte[] point = Secp256k1.serP(Secp256k1.point(HdUtil.parse256(keyData)));
         byte[] h160 = Hash.h160(point);
-        return new byte[]{h160[0], h160[1], h160[2], h160[3]};
+        return new byte[] { h160[0], h160[1], h160[2], h160[3] };
     }
 
     public static byte[] ser32LE(long i) {
@@ -144,5 +142,34 @@ public class HdUtil {
         ser[0] = (byte) (i);
         return ser;
     }
-}
 
+    public static void reverse(final byte[] array) {
+        if (array == null) {
+            return;
+        }
+        reverse(array, 0, array.length);
+    }
+
+    public static void reverse(final byte[] array, final int startIndexInclusive, final int endIndexExclusive) {
+        if (array == null) {
+            return;
+        }
+        int i = Math.max(startIndexInclusive, 0);
+        int j = Math.min(array.length, endIndexExclusive) - 1;
+        byte tmp;
+        while (j > i) {
+            tmp = array[j];
+            array[j] = array[i];
+            array[i] = tmp;
+            j--;
+            i++;
+        }
+    }
+
+    public static byte[] clone(final byte[] array) {
+        if (array == null) {
+            return null;
+        }
+        return array.clone();
+    }
+}

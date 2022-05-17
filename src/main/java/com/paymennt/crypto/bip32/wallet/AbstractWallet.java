@@ -24,7 +24,7 @@ public abstract class AbstractWallet {
 
         HdAddress masterAddress = HdKeyGenerator.getAddressFromSeed(seed, network, coinType);
         HdAddress purposeAddress = HdKeyGenerator.getAddress(masterAddress, purpose.bip, true);
-        this.rootAddress = HdKeyGenerator.getAddress(purposeAddress, coinType.getCoinType(), true);
+        this.rootAddress = HdKeyGenerator.getAddress(purposeAddress, coinType.getCoinType(network), true);
 
     }
 
@@ -45,6 +45,10 @@ public abstract class AbstractWallet {
 
     public HdPublicKey getPublicKey(int account, Chain chain, Integer index) {
         return getHdAddress(account, chain, index).getPublicKey();
+    }
+
+    public String getPath(int account, Chain chain, Integer index) {
+        return getHdAddress(account, chain, index).getPath();
     }
 
     /**

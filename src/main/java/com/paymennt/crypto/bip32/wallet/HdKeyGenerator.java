@@ -6,6 +6,12 @@
  */
 package com.paymennt.crypto.bip32.wallet;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.util.Arrays;
+
+import org.bouncycastle.math.ec.ECPoint;
+
 import com.paymennt.crypto.CoinType;
 import com.paymennt.crypto.bip32.Network;
 import com.paymennt.crypto.bip32.crypto.Hash;
@@ -16,17 +22,13 @@ import com.paymennt.crypto.bip32.exception.CryptoException;
 import com.paymennt.crypto.bip32.wallet.key.Curve;
 import com.paymennt.crypto.bip32.wallet.key.HdPrivateKey;
 import com.paymennt.crypto.bip32.wallet.key.HdPublicKey;
+
 import net.i2p.crypto.eddsa.EdDSAPrivateKey;
 import net.i2p.crypto.eddsa.EdDSAPublicKey;
 import net.i2p.crypto.eddsa.spec.EdDSANamedCurveTable;
 import net.i2p.crypto.eddsa.spec.EdDSAParameterSpec;
 import net.i2p.crypto.eddsa.spec.EdDSAPrivateKeySpec;
 import net.i2p.crypto.eddsa.spec.EdDSAPublicKeySpec;
-import org.bouncycastle.math.ec.ECPoint;
-
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.util.Arrays;
 
 public class HdKeyGenerator {
 
