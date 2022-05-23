@@ -11,7 +11,6 @@ import com.paymennt.crypto.CoinType;
 import com.paymennt.crypto.bip32.Network;
 import com.paymennt.crypto.bip32.wallet.key.HdPrivateKey;
 import com.paymennt.crypto.bip32.wallet.key.HdPublicKey;
-import com.paymennt.crypto.bip39.Language;
 import com.paymennt.crypto.bip39.MnemonicGenerator;
 
 /**
@@ -26,7 +25,7 @@ public abstract class AbstractWallet {
 
         Security.addProvider(new BouncyCastleProvider());
 
-        byte[] seed = MnemonicGenerator.getSeedFromWordlist(words, passphrase, Language.ENGLISH);
+        byte[] seed = MnemonicGenerator.getSeedFromWordlist(words, passphrase);
 
         HdAddress masterAddress = HdKeyGenerator.getAddressFromSeed(seed, network, coinType);
         HdAddress purposeAddress = HdKeyGenerator.getAddress(masterAddress, purpose.bip, true);

@@ -2,9 +2,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.paymennt</groupId>
 	<artifactId>cryptoj</artifactId>
-	<version>0.0.4</version>
+	<version>0.0.5</version>
 	<name>cryptoj</name>
-	<description>Wallet library supporting Bitcoin, SOLANA - Java</description>
+	<description>Wallet library supporting BIP 32</description>
 	<url>https://www.paymennt.com/</url>
 
 	<licenses>
