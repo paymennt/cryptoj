@@ -3,6 +3,10 @@
  */
 package com.paymennt.crypto.bip32.wallet;
 
+import java.security.Security;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 import com.paymennt.crypto.CoinType;
 import com.paymennt.crypto.bip32.Network;
 import com.paymennt.crypto.bip32.wallet.key.HdPrivateKey;
@@ -19,6 +23,8 @@ public abstract class AbstractWallet {
     private HdAddress rootAddress;
 
     protected AbstractWallet(String words, String passphrase, Purpose purpose, Network network, CoinType coinType) {
+
+        Security.addProvider(new BouncyCastleProvider());
 
         byte[] seed = MnemonicGenerator.getSeedFromWordlist(words, passphrase, Language.ENGLISH);
 
