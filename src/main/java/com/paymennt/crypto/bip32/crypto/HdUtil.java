@@ -1,8 +1,6 @@
-/**
- * Copyright (c) 2018 orogvany
- *
- * Distributed under the MIT software license, see the accompanying file
- * LICENSE or https://opensource.org/licenses/mit-license.php
+/************************************************************************ 
+ * Copyright PointCheckout, Ltd.
+ * 
  */
 package com.paymennt.crypto.bip32.crypto;
 
@@ -10,17 +8,16 @@ import java.math.BigInteger;
 import java.util.Arrays;
 
 /**
- * General Util class for defined functions.
+ * @author paymennt
+ * 
  */
 public class HdUtil {
 
     /**
-     * ser32(i): serialize a 32-bit unsigned integer i as a 4-byte sequence,
-     * most significant byte first.
-     * <p>
-     * Prefer long type to hold unsigned ints.
+     * 
      *
-     * @return ser32(i)
+     * @param i 
+     * @return 
      */
     public static byte[] ser32(long i) {
 
@@ -33,11 +30,10 @@ public class HdUtil {
     }
 
     /**
-     * ser256(p): serializes the integer p as a 32-byte sequence, most
-     * significant byte first.
+     * 
      *
-     * @param p big integer
-     * @return 32 byte sequence
+     * @param p 
+     * @return 
      */
     public static byte[] ser256(BigInteger p) {
         byte[] byteArray = p.toByteArray();
@@ -57,11 +53,10 @@ public class HdUtil {
     }
 
     /**
-     * ser256(p): serializes the integer p as a 32-byte sequence, least
-     * significant byte first.
+     * 
      *
-     * @param p big integer
-     * @return 32 byte sequence
+     * @param p 
+     * @return 
      */
     public static byte[] ser256LE(BigInteger p) {
 
@@ -84,22 +79,20 @@ public class HdUtil {
     }
 
     /**
-     * parse256(p): interprets a 32-byte sequence as a 256-bit number, most
-     * significant byte first.
+     * 
      *
-     * @param p bytes
-     * @return 256 bit number
+     * @param p 
+     * @return 
      */
     public static BigInteger parse256(byte[] p) {
         return new BigInteger(1, p);
     }
 
     /**
-     * parse256LE(p): interprets a 32-byte sequence as a 256-bit number, least
-     * significant byte first
+     * 
      *
-     * @param p bytes
-     * @return 256 bit number
+     * @param p 
+     * @return 
      */
     public static BigInteger parse256LE(byte[] p) {
         byte[] copy = clone(p);
@@ -109,11 +102,11 @@ public class HdUtil {
     }
 
     /**
-     * Append two byte arrays
+     * 
      *
-     * @param a first byte array
-     * @param b second byte array
-     * @return bytes appended
+     * @param a 
+     * @param b 
+     * @return 
      */
     public static byte[] append(byte[] a, byte[] b) {
         byte[] c = new byte[a.length + b.length];
@@ -123,10 +116,10 @@ public class HdUtil {
     }
 
     /**
-     * Get the fingerprint
+     * 
      *
-     * @param keyData key data
-     * @return fingerprint
+     * @param keyData 
+     * @return 
      */
     public static byte[] getFingerprint(byte[] keyData) {
         byte[] point = Secp256k1.serP(Secp256k1.point(HdUtil.parse256(keyData)));
@@ -134,6 +127,12 @@ public class HdUtil {
         return new byte[] { h160[0], h160[1], h160[2], h160[3] };
     }
 
+    /**
+     * 
+     *
+     * @param i 
+     * @return 
+     */
     public static byte[] ser32LE(long i) {
         byte[] ser = new byte[4];
         ser[3] = (byte) (i >> 24);
@@ -143,6 +142,11 @@ public class HdUtil {
         return ser;
     }
 
+    /**
+     * 
+     *
+     * @param array 
+     */
     public static void reverse(final byte[] array) {
         if (array == null) {
             return;
@@ -150,6 +154,13 @@ public class HdUtil {
         reverse(array, 0, array.length);
     }
 
+    /**
+     * 
+     *
+     * @param array 
+     * @param startIndexInclusive 
+     * @param endIndexExclusive 
+     */
     public static void reverse(final byte[] array, final int startIndexInclusive, final int endIndexExclusive) {
         if (array == null) {
             return;
@@ -166,6 +177,12 @@ public class HdUtil {
         }
     }
 
+    /**
+     * 
+     *
+     * @param array 
+     * @return 
+     */
     public static byte[] clone(final byte[] array) {
         if (array == null) {
             return null;

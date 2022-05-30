@@ -1,8 +1,6 @@
-/**
- * Copyright (c) 2018 orogvany
- *
- * Distributed under the MIT software license, see the accompanying file
- * LICENSE or https://opensource.org/licenses/mit-license.php
+/************************************************************************ 
+ * Copyright PointCheckout, Ltd.
+ * 
  */
 package com.paymennt.crypto.bip32.crypto;
 
@@ -14,18 +12,20 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Utility class for Hmac SHA-512
+ * @author paymennt
+ * 
  */
 public class HmacSha512 {
 
+    /**  */
     private static final String HMAC_SHA512 = "HmacSHA512";
 
     /**
-     * hmac512
+     * 
      *
-     * @param key key
-     * @param seed seed
-     * @return hmac512
+     * @param key 
+     * @param seed 
+     * @return 
      */
     public static byte[] hmac512(byte[] key, byte[] seed) {
         try {

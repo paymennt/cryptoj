@@ -12,23 +12,24 @@ import org.bouncycastle.crypto.digests.RIPEMD160Digest;
 
 
 /**
- * The Class ByteUtils.
+ * @author paymennt
+ * 
  */
 public class ByteUtils {
     
-    /** The Constant UINT_32_LENGTH. */
+    /**  */
     public static final int UINT_32_LENGTH = 4;
     
-    /** The Constant UINT_64_LENGTH. */
+    /**  */
     public static final int UINT_64_LENGTH = 8;
 
     /**
-     * Read bytes.
+     * 
      *
-     * @param buf the buf
-     * @param offset the offset
-     * @param length the length
-     * @return the byte[]
+     * @param buf 
+     * @param offset 
+     * @param length 
+     * @return 
      */
     public static byte[] readBytes(byte[] buf, int offset, int length) {
         byte[] b = new byte[length];
@@ -37,33 +38,22 @@ public class ByteUtils {
     }
 
     /**
-     * Read uint 64.
+     * 
      *
-     * @param buf the buf
-     * @param offset the offset
-     * @return the big integer
+     * @param buf 
+     * @param offset 
+     * @return 
      */
     public static BigInteger readUint64(byte[] buf, int offset) {
         return new BigInteger(reverseBytes(readBytes(buf, offset, UINT_64_LENGTH)));
     }
 
     /**
-     * <p>
-     * The regular {@link BigInteger#toByteArray()} includes the sign bit of the number and
-     * might result in an extra byte addition. This method removes this extra byte.
-     * </p>
-     * <p>
-     * Assuming only positive numbers, it's possible to discriminate if an extra byte
-     * is added by checking if the first element of the array is 0 (0000_0000).
-     * Due to the minimal representation provided by BigInteger, it means that the bit sign
-     * is the least significant bit 0000_000<b>0</b> .
-     * Otherwise the representation is not minimal.
-     * For example, if the sign bit is 0000_00<b>0</b>0, then the representation is not minimal due to the rightmost zero.
-     * </p>
-     * This is the antagonist to {@link #bytesToBigInteger(byte[])}.
-     * @param b the integer to format into a byte array
-     * @param numBytes the desired size of the resulting byte array
-     * @return numBytes byte long array.
+     * 
+     *
+     * @param b 
+     * @param numBytes 
+     * @return 
      */
     public static byte[] bigIntegerToBytes(BigInteger b, int numBytes) {
         assert b.signum() >= 0;
@@ -80,22 +70,21 @@ public class ByteUtils {
     }
 
     /**
-     * Converts an array of bytes into a positive BigInteger. This is the antagonist to
-     * {@link #bigIntegerToBytes(BigInteger, int)}.
+     * 
      *
-     * @param bytes to convert into a BigInteger
-     * @return the converted BigInteger
+     * @param bytes 
+     * @return 
      */
     public static BigInteger bytesToBigInteger(byte[] bytes) {
         return new BigInteger(1, bytes);
     }
 
     /**
-     *  Write 2 bytes to the byte array (starting at the offset) as unsigned 16-bit integer in little endian format.
+     * 
      *
-     * @param val the val
-     * @param out the out
-     * @param offset the offset
+     * @param val 
+     * @param out 
+     * @param offset 
      */
     public static void uint16ToByteArrayLE(int val, byte[] out, int offset) {
         out[offset] = (byte) (0xFF & val);
@@ -103,11 +92,11 @@ public class ByteUtils {
     }
 
     /**
-     *  Write 4 bytes to the byte array (starting at the offset) as unsigned 32-bit integer in little endian format.
+     * 
      *
-     * @param val the val
-     * @param out the out
-     * @param offset the offset
+     * @param val 
+     * @param out 
+     * @param offset 
      */
     public static void uint32ToByteArrayLE(long val, byte[] out, int offset) {
         out[offset] = (byte) (0xFF & val);
@@ -117,11 +106,11 @@ public class ByteUtils {
     }
 
     /**
-     *  Write 4 bytes to the byte array (starting at the offset) as unsigned 32-bit integer in big endian format.
+     * 
      *
-     * @param val the val
-     * @param out the out
-     * @param offset the offset
+     * @param val 
+     * @param out 
+     * @param offset 
      */
     public static void uint32ToByteArrayBE(long val, byte[] out, int offset) {
         out[offset] = (byte) (0xFF & (val >> 24));
@@ -131,11 +120,11 @@ public class ByteUtils {
     }
 
     /**
-     *  Write 8 bytes to the byte array (starting at the offset) as signed 64-bit integer in little endian format.
+     * 
      *
-     * @param val the val
-     * @param out the out
-     * @param offset the offset
+     * @param val 
+     * @param out 
+     * @param offset 
      */
     public static void int64ToByteArrayLE(long val, byte[] out, int offset) {
         out[offset] = (byte) (0xFF & val);
@@ -149,11 +138,11 @@ public class ByteUtils {
     }
 
     /**
-     *  Write 2 bytes to the output stream as unsigned 16-bit integer in little endian format.
+     * 
      *
-     * @param val the val
-     * @param stream the stream
-     * @throws IOException Signals that an I/O exception has occurred.
+     * @param val 
+     * @param stream 
+     * @throws IOException 
      */
     public static void uint16ToByteStreamLE(int val, OutputStream stream) throws IOException {
         stream.write((int) (0xFF & val));
@@ -161,11 +150,11 @@ public class ByteUtils {
     }
 
     /**
-     *  Write 2 bytes to the output stream as unsigned 16-bit integer in big endian format.
+     * 
      *
-     * @param val the val
-     * @param stream the stream
-     * @throws IOException Signals that an I/O exception has occurred.
+     * @param val 
+     * @param stream 
+     * @throws IOException 
      */
     public static void uint16ToByteStreamBE(int val, OutputStream stream) throws IOException {
         stream.write((int) (0xFF & (val >> 8)));
@@ -173,11 +162,11 @@ public class ByteUtils {
     }
 
     /**
-     *  Write 4 bytes to the output stream as unsigned 32-bit integer in little endian format.
+     * 
      *
-     * @param val the val
-     * @param stream the stream
-     * @throws IOException Signals that an I/O exception has occurred.
+     * @param val 
+     * @param stream 
+     * @throws IOException 
      */
     public static void uint32ToByteStreamLE(long val, OutputStream stream) throws IOException {
         stream.write((int) (0xFF & val));
@@ -187,11 +176,11 @@ public class ByteUtils {
     }
 
     /**
-     *  Write 4 bytes to the output stream as unsigned 32-bit integer in big endian format.
+     * 
      *
-     * @param val the val
-     * @param stream the stream
-     * @throws IOException Signals that an I/O exception has occurred.
+     * @param val 
+     * @param stream 
+     * @throws IOException 
      */
     public static void uint32ToByteStreamBE(long val, OutputStream stream) throws IOException {
         stream.write((int) (0xFF & (val >> 24)));
@@ -201,11 +190,11 @@ public class ByteUtils {
     }
 
     /**
-     *  Write 8 bytes to the output stream as signed 64-bit integer in little endian format.
+     * 
      *
-     * @param val the val
-     * @param stream the stream
-     * @throws IOException Signals that an I/O exception has occurred.
+     * @param val 
+     * @param stream 
+     * @throws IOException 
      */
     public static void int64ToByteStreamLE(long val, OutputStream stream) throws IOException {
         stream.write((int) (0xFF & val));
@@ -219,11 +208,11 @@ public class ByteUtils {
     }
 
     /**
-     *  Write 8 bytes to the output stream as unsigned 64-bit integer in little endian format.
+     * 
      *
-     * @param val the val
-     * @param stream the stream
-     * @throws IOException Signals that an I/O exception has occurred.
+     * @param val 
+     * @param stream 
+     * @throws IOException 
      */
     public static void uint64ToByteStreamLE(BigInteger val, OutputStream stream) throws IOException {
         byte[] bytes = val.toByteArray();
@@ -239,22 +228,22 @@ public class ByteUtils {
     }
 
     /**
-     *  Parse 2 bytes from the byte array (starting at the offset) as unsigned 16-bit integer in little endian format.
+     * 
      *
-     * @param bytes the bytes
-     * @param offset the offset
-     * @return the int
+     * @param bytes 
+     * @param offset 
+     * @return 
      */
     public static int readUint16(byte[] bytes, int offset) {
         return (bytes[offset] & 0xff) | ((bytes[offset + 1] & 0xff) << 8);
     }
 
     /**
-     *  Parse 4 bytes from the byte array (starting at the offset) as unsigned 32-bit integer in little endian format.
+     * 
      *
-     * @param bytes the bytes
-     * @param offset the offset
-     * @return the long
+     * @param bytes 
+     * @param offset 
+     * @return 
      */
     public static long readUint32(byte[] bytes, int offset) {
         return (bytes[offset] & 0xffl) | ((bytes[offset + 1] & 0xffl) << 8) | ((bytes[offset + 2] & 0xffl) << 16)
@@ -262,11 +251,11 @@ public class ByteUtils {
     }
 
     /**
-     *  Parse 8 bytes from the byte array (starting at the offset) as signed 64-bit integer in little endian format.
+     * 
      *
-     * @param bytes the bytes
-     * @param offset the offset
-     * @return the long
+     * @param bytes 
+     * @param offset 
+     * @return 
      */
     public static long readInt64(byte[] bytes, int offset) {
         return (bytes[offset] & 0xffl) | ((bytes[offset + 1] & 0xffl) << 8) | ((bytes[offset + 2] & 0xffl) << 16)
@@ -276,11 +265,11 @@ public class ByteUtils {
     }
 
     /**
-     *  Parse 4 bytes from the byte array (starting at the offset) as unsigned 32-bit integer in big endian format.
+     * 
      *
-     * @param bytes the bytes
-     * @param offset the offset
-     * @return the long
+     * @param bytes 
+     * @param offset 
+     * @return 
      */
     public static long readUint32BE(byte[] bytes, int offset) {
         return ((bytes[offset] & 0xffl) << 24) | ((bytes[offset + 1] & 0xffl) << 16)
@@ -288,21 +277,21 @@ public class ByteUtils {
     }
 
     /**
-     *  Parse 2 bytes from the byte array (starting at the offset) as unsigned 16-bit integer in big endian format.
+     * 
      *
-     * @param bytes the bytes
-     * @param offset the offset
-     * @return the int
+     * @param bytes 
+     * @param offset 
+     * @return 
      */
     public static int readUint16BE(byte[] bytes, int offset) {
         return ((bytes[offset] & 0xff) << 8) | (bytes[offset + 1] & 0xff);
     }
 
     /**
-     *  Parse 2 bytes from the stream as unsigned 16-bit integer in little endian format.
+     * 
      *
-     * @param is the is
-     * @return the int
+     * @param is 
+     * @return 
      */
     public static int readUint16FromStream(InputStream is) {
         try {
@@ -313,10 +302,10 @@ public class ByteUtils {
     }
 
     /**
-     *  Parse 4 bytes from the stream as unsigned 32-bit integer in little endian format.
+     * 
      *
-     * @param is the is
-     * @return the long
+     * @param is 
+     * @return 
      */
     public static long readUint32FromStream(InputStream is) {
         try {
@@ -328,10 +317,10 @@ public class ByteUtils {
     }
 
     /**
-     * Returns a copy of the given byte array in reverse order.
+     * 
      *
-     * @param bytes the bytes
-     * @return the byte[]
+     * @param bytes 
+     * @return 
      */
     public static byte[] reverseBytes(byte[] bytes) {
         // We could use the XOR trick here but it's easier to understand if we don't. If we find this is really a
@@ -343,10 +332,10 @@ public class ByteUtils {
     }
 
     /**
-     * Calculates RIPEMD160(SHA256(input)). This is used in Address calculations.
+     * 
      *
-     * @param input the input
-     * @return the byte[]
+     * @param input 
+     * @return 
      */
     public static byte[] sha256hash160(byte[] input) {
         byte[] sha256 = Sha256.hash(input);

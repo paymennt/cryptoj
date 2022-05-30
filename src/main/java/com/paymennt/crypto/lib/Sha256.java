@@ -10,15 +10,16 @@ import java.security.NoSuchAlgorithmException;
 import java.util.NoSuchElementException;
 
 /**
- * The Class Sha256.
+ * @author paymennt
+ * 
  */
 public class Sha256 {
     
     /**
-     * Hash.
+     * 
      *
-     * @param key the key
-     * @return the byte[]
+     * @param key 
+     * @return 
      */
     public static byte[] hash(byte[] key) {
         MessageDigest sha256 = null;
@@ -31,10 +32,10 @@ public class Sha256 {
     }
 
     /**
-     * Hash to hex.
+     * 
      *
-     * @param key the key
-     * @return the string
+     * @param key 
+     * @return 
      */
     public static String hashToHex(String key) {
         return Hex.toHexString(hash(Hex.decodeStrict(key)));

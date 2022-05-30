@@ -1,4 +1,5 @@
-/**
+/************************************************************************ 
+ * Copyright PointCheckout, Ltd.
  * 
  */
 package com.paymennt.crypto.bip39;
@@ -10,11 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author asendar
- *
+ * @author paymennt
+ * 
  */
 public enum WordList {
 
+    /**  */
     ENGLISH(
         Arrays.asList("abandon", "ability", "able", "about", "above", "absent", "absorb", "abstract", "absurd",
             "abuse", "access", "accident", "account", "accuse", "achieve", "acid", "acoustic", "acquire",
@@ -217,18 +219,16 @@ public enum WordList {
             "wrestle", "wrist", "write", "wrong", "yard", "year", "yellow", "you", "young", "youth", "zebra",
             "zero", "zone", "zoo"));
 
-    /**
-     * 
-     */
+    /**  */
     private final List<String> words;
 
-    /**
-     * Internal only tree used to lookup word index
-     */
+    /**  */
     private final MnemonicTree mnemonicTree;
 
     /**
-     * @param words
+     * 
+     *
+     * @param words 
      */
     WordList(List<String> words) {
         this.words = words;
@@ -239,16 +239,20 @@ public enum WordList {
     }
 
     /**
-     * Efficiently return the index of the word within the original word list - log(n) 
-     * @param word
-     * @return
+     * 
+     *
+     * @param word 
+     * @return 
      */
     public Integer getWordIndex(char[] word) {
         return this.mnemonicTree.getIndex(word);
     }
 
     /**
-     * @return
+     * 
+     *
+     * @param index 
+     * @return 
      */
     public String getWordAtIndex(int index) {
         return this.words.get(index);
@@ -256,13 +260,21 @@ public enum WordList {
 
     /**
      * 
-     * 
-     * @author bashar
      */
     private class MnemonicTree {
+        
+        /**  */
         private Integer leafIndex = null;
+        
+        /**  */
         private Map<Character, MnemonicTree> branches = new HashMap<>();
 
+        /**
+         * 
+         *
+         * @param leafIndex 
+         * @param characters 
+         */
         public void addPath(Integer leafIndex, char... characters) {
             LinkedList<Character> path = new LinkedList<>();
             for (char c : characters)
@@ -270,6 +282,12 @@ public enum WordList {
             this.addPath(leafIndex, path);
         }
 
+        /**
+         * 
+         *
+         * @param leafIndex 
+         * @param path 
+         */
         public void addPath(Integer leafIndex, LinkedList<Character> path) {
             Character c = path.poll();
             if (c == null) {
@@ -281,6 +299,12 @@ public enum WordList {
             }
         }
 
+        /**
+         * 
+         *
+         * @param characters 
+         * @return 
+         */
         public Integer getIndex(char... characters) {
             LinkedList<Character> path = new LinkedList<>();
             for (char c : characters)
@@ -288,6 +312,12 @@ public enum WordList {
             return getIndex(path);
         }
 
+        /**
+         * 
+         *
+         * @param path 
+         * @return 
+         */
         public Integer getIndex(LinkedList<Character> path) {
             if (path.isEmpty())
                 return this.leafIndex;

@@ -4,15 +4,16 @@
 package com.paymennt.crypto.lib;
 
 /**
- * The Class ShortvecEncoding.
+ * @author paymennt
+ * 
  */
 public class ShortvecEncoding {
 
     /**
-     * Encode length.
+     * 
      *
-     * @param len the len
-     * @return the byte[]
+     * @param len 
+     * @return 
      */
     public static byte[] encodeLength(int len) {
         byte[] out = new byte[10];

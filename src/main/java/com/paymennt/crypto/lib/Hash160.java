@@ -10,15 +10,16 @@ import java.security.NoSuchAlgorithmException;
 import java.util.NoSuchElementException;
 
 /**
- * The Class Hash160.
+ * @author paymennt
+ * 
  */
 public class Hash160 {
     
     /**
-     * Hash.
+     * 
      *
-     * @param key the key
-     * @return the byte[]
+     * @param key 
+     * @return 
      */
     public static byte[] hash(byte[] key) {
         MessageDigest ripemd = null;
@@ -37,10 +38,10 @@ public class Hash160 {
     }
 
     /**
-     * Hash to hex.
+     * 
      *
-     * @param key the key
-     * @return the string
+     * @param key 
+     * @return 
      */
     public static String hashToHex(byte[] key) {
         return Hex.toHexString(hash(key));

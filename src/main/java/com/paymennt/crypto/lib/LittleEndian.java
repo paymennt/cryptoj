@@ -9,26 +9,27 @@ import org.bouncycastle.util.encoders.Hex;
 import java.math.BigInteger;
 
 /**
- * The Class LittleEndian.
+ * @author paymennt
+ * 
  */
 public class LittleEndian {
     
     /**
-     * To unsigned little endian.
+     * 
      *
-     * @param bytes the bytes
-     * @return the big integer
+     * @param bytes 
+     * @return 
      */
     public static BigInteger toUnsignedLittleEndian(byte[] bytes) {
         return new BigInteger(1, Bytes.reverse(bytes));
     }
 
     /**
-     * From unsigned little endian.
+     * 
      *
-     * @param bigInteger the big integer
-     * @param outputLength the output length
-     * @return the byte[]
+     * @param bigInteger 
+     * @param outputLength 
+     * @return 
      */
     public static byte[] fromUnsignedLittleEndian(BigInteger bigInteger, int outputLength) {
         byte[] bytes = BigIntegers.asUnsignedByteArray(outputLength, bigInteger);
@@ -36,11 +37,11 @@ public class LittleEndian {
     }
 
     /**
-     * From unsigned little endian to hex.
+     * 
      *
-     * @param bigInteger the big integer
-     * @param outputLength the output length
-     * @return the string
+     * @param bigInteger 
+     * @param outputLength 
+     * @return 
      */
     public static String fromUnsignedLittleEndianToHex(BigInteger bigInteger, int outputLength) {
         return Hex.toHexString(fromUnsignedLittleEndian(bigInteger, outputLength));

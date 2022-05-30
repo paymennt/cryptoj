@@ -1,13 +1,12 @@
-/**
- * Copyright (c) 2018 orogvany
- *
- * Distributed under the MIT software license, see the accompanying file
- * LICENSE or https://opensource.org/licenses/mit-license.php
+/************************************************************************ 
+ * Copyright PointCheckout, Ltd.
+ * 
  */
 package com.paymennt.crypto.bip32.exception;
 
 /**
- * General exception for crypto operations
+ * @author paymennt
+ * 
  */
 public class CryptoException extends RuntimeException {
 

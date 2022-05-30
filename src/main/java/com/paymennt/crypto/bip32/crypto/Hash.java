@@ -1,8 +1,6 @@
-/**
- * Copyright (c) 2018 orogvany
- *
- * Distributed under the MIT software license, see the accompanying file
- * LICENSE or https://opensource.org/licenses/mit-license.php
+/************************************************************************ 
+ * Copyright PointCheckout, Ltd.
+ * 
  */
 package com.paymennt.crypto.bip32.crypto;
 
@@ -13,15 +11,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Basic hash functions
+ * @author paymennt
+ * 
  */
 public class Hash {
 
     /**
-     * SHA-256
+     * 
      *
-     * @param input input
-     * @return sha256(input)
+     * @param input 
+     * @return 
      */
     public static byte[] sha256(byte[] input) {
         try {
@@ -33,10 +32,10 @@ public class Hash {
     }
 
     /**
-     * SHA-512
+     * 
      *
-     * @param input input
-     * @return sha512(input)
+     * @param input 
+     * @return 
      */
     public static byte[] sha512(byte[] input) {
         try {
@@ -48,15 +47,23 @@ public class Hash {
     }
 
     /**
-     * sha256(sha256(bytes))
+     * 
      *
-     * @param bytes input
-     * @return sha'd twice result
+     * @param bytes 
+     * @return 
      */
     public static byte[] sha256Twice(byte[] bytes) {
         return sha256Twice(bytes, 0, bytes.length);
     }
 
+    /**
+     * 
+     *
+     * @param bytes 
+     * @param offset 
+     * @param length 
+     * @return 
+     */
     public static byte[] sha256Twice(final byte[] bytes, final int offset, final int length) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -69,10 +76,10 @@ public class Hash {
     }
 
     /**
-     * H160
+     * 
      *
-     * @param input input
-     * @return h160(input)
+     * @param input 
+     * @return 
      */
     public static byte[] h160(byte[] input) {
         byte[] sha256 = sha256(input);

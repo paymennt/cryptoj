@@ -8,15 +8,16 @@ import org.bouncycastle.util.encoders.Hex;
 import java.io.ByteArrayOutputStream;
 
 /**
- * The Class Bytes.
+ * @author paymennt
+ * 
  */
 public class Bytes {
     
     /**
-     * Reverse.
+     * 
      *
-     * @param bytes the bytes
-     * @return the byte[]
+     * @param bytes 
+     * @return 
      */
     public static byte[] reverse(byte[] bytes) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -27,20 +28,20 @@ public class Bytes {
     }
 
     /**
-     * Reverse from hex.
+     * 
      *
-     * @param hex the hex
-     * @return the string
+     * @param hex 
+     * @return 
      */
     public static String reverseFromHex(String hex) {
         return Hex.toHexString(reverse(Hex.decodeStrict(hex)));
     }
 
     /**
-     * Reverse to hex.
+     * 
      *
-     * @param bytes the bytes
-     * @return the string
+     * @param bytes 
+     * @return 
      */
     public static String reverseToHex(byte[] bytes) {
         return Hex.toHexString(reverse(bytes));

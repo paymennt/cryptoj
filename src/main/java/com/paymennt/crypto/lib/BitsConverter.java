@@ -10,18 +10,19 @@ import java.util.List;
 import static java.math.BigInteger.*;
 
 /**
- * The Class BitsConverter.
+ * @author paymennt
+ * 
  */
 public class BitsConverter {
     
     /**
-     * Convert bits.
+     * 
      *
-     * @param key the key
-     * @param fromBits the from bits
-     * @param toBits the to bits
-     * @param pad the pad
-     * @return the list
+     * @param key 
+     * @param fromBits 
+     * @param toBits 
+     * @param pad 
+     * @return 
      */
     public static List<Integer> convertBits(byte[] key, int fromBits, int toBits, boolean pad) {
         BigInteger acc = ZERO;
@@ -51,13 +52,13 @@ public class BitsConverter {
     }
 
     /**
-     * Convert bits.
+     * 
      *
-     * @param key the key
-     * @param fromBits the from bits
-     * @param toBits the to bits
-     * @param pad the pad
-     * @return the list
+     * @param key 
+     * @param fromBits 
+     * @param toBits 
+     * @param pad 
+     * @return 
      */
     public static List<Integer> convertBits(List<Integer> key, int fromBits, int toBits, boolean pad) {
         BigInteger acc = ZERO;

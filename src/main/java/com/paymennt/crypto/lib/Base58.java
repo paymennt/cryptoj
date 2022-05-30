@@ -16,17 +16,18 @@ import static java.math.BigInteger.valueOf;
 import static java.util.Arrays.copyOfRange;
 
 /**
- * The Class Base58.
+ * @author paymennt
+ * 
  */
 public class Base58 {
     
-    /** The Constant BASE58_ALPHABET. */
+    /**  */
     private static final String BASE58_ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
-    /** The Constant ALPHABET. */
+    /**  */
     public static final char[] ALPHABET = BASE58_ALPHABET.toCharArray();
     
-    /** The Constant INDEXES. */
+    /**  */
     private static final int[] INDEXES = new int[128];
     static {
         Arrays.fill(INDEXES, -1);
@@ -36,10 +37,10 @@ public class Base58 {
     }
 
     /**
-     * Encode.
+     * 
      *
-     * @param key the key
-     * @return the string
+     * @param key 
+     * @return 
      */
     public static String encode(byte[] key) {
         int zeroCount = 0;
@@ -63,10 +64,10 @@ public class Base58 {
     }
 
     /**
-     * Decodes the given base58 string into the original data bytes.
+     * 
      *
-     * @param input the input
-     * @return the byte[]
+     * @param input 
+     * @return 
      */
     public static byte[] decode(String input) {
         if (input.length() == 0) {
@@ -103,10 +104,10 @@ public class Base58 {
     }
 
     /**
-     * Encode with checksum.
+     * 
      *
-     * @param key the key
-     * @return the string
+     * @param key 
+     * @return 
      */
     public static String encodeWithChecksum(byte[] key) {
         byte[] checksum = Hash256.hash(key);
@@ -117,11 +118,11 @@ public class Base58 {
     }
 
     /**
-     * Decode wif.
+     * 
      *
-     * @param wif the wif
-     * @param compressed the compressed
-     * @return the byte[]
+     * @param wif 
+     * @param compressed 
+     * @return 
      */
     public static byte[] decodeWif(String wif, boolean compressed) {
         BigInteger number = ZERO;
@@ -139,10 +140,10 @@ public class Base58 {
     }
 
     /**
-     * Decode with checksum.
+     * 
      *
-     * @param key the key
-     * @return the byte[]
+     * @param key 
+     * @return 
      */
     public static byte[] decodeWithChecksum(String key) {
         BigInteger number = ZERO;
@@ -160,10 +161,10 @@ public class Base58 {
     }
 
     /**
-     * Decode extended key.
+     * 
      *
-     * @param key the key
-     * @return the byte[]
+     * @param key 
+     * @return 
      */
     public static byte[] decodeExtendedKey(String key) {
         BigInteger number = ZERO;
@@ -176,57 +177,54 @@ public class Base58 {
     }
 
     /**
-     * Decode with checksum to hex.
+     * 
      *
-     * @param key the key
-     * @return the string
+     * @param key 
+     * @return 
      */
     public static String decodeWithChecksumToHex(String key) {
         return Hex.toHexString(decodeWithChecksum(key));
     }
 
     /**
-     * Checks if is valid address.
+     * 
      *
-     * @param combined the combined
-     * @param checksum the checksum
-     * @return true, if is valid address
+     * @param combined 
+     * @param checksum 
+     * @return 
      */
     private static boolean isValidAddress(byte[] combined, byte[] checksum) {
         return Arrays.equals(copyOfRange(Hash256.hash(copyOfRange(combined, 0, 21)), 0, 4), checksum);
     }
 
     /**
-     * Encode from hex.
+     * 
      *
-     * @param key the key
-     * @return the string
+     * @param key 
+     * @return 
      */
     public static String encodeFromHex(String key) {
         return encode(Hex.decodeStrict(key));
     }
 
     /**
-     * Encode with checksum from hex.
+     * 
      *
-     * @param key the key
-     * @return the string
+     * @param key 
+     * @return 
      */
     public static String encodeWithChecksumFromHex(String key) {
         return encodeWithChecksum(Hex.decodeStrict(key));
     }
 
     /**
-     * Divides a number, represented as an array of bytes each containing a single digit
-     * in the specified base, by the given divisor. The given number is modified in-place
-     * to contain the quotient, and the return value is the remainder.
+     * 
      *
-     * @param number the number to divide
-     * @param firstDigit the index within the array of the first non-zero digit
-     *        (this is used for optimization by skipping the leading zeros)
-     * @param base the base in which the number's digits are represented (up to 256)
-     * @param divisor the number to divide by (up to 256)
-     * @return the remainder of the division operation
+     * @param number 
+     * @param firstDigit 
+     * @param base 
+     * @param divisor 
+     * @return 
      */
     private static byte divmod(byte[] number, int firstDigit, int base, int divisor) {
         // this is just long division which accounts for the base of the input digits

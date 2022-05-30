@@ -10,27 +10,28 @@ import org.bouncycastle.crypto.util.DigestFactory;
 import java.nio.charset.StandardCharsets;
 
 /**
- * The Class HMacSha512.
+ * @author paymennt
+ * 
  */
 public class HMacSha512 {
     
     /**
-     * Hash.
+     * 
      *
-     * @param key the key
-     * @param data the data
-     * @return the byte[]
+     * @param key 
+     * @param data 
+     * @return 
      */
     public static byte[] hash(String key, byte[] data) {
         return hash(key.getBytes(StandardCharsets.UTF_8), data);
     }
 
     /**
-     * Hash.
+     * 
      *
-     * @param key the key
-     * @param data the data
-     * @return the byte[]
+     * @param key 
+     * @param data 
+     * @return 
      */
     public static byte[] hash(byte[] key, byte[] data) {
         HMac hMac = new HMac(DigestFactory.createSHA512());
